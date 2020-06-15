@@ -1,117 +1,135 @@
 'use strict';
-var map = document.querySelector('.map');
+var HEADER = 'Заголовок предложения №';
+var TYPE_OF_HOUSING = ['place', 'flat', 'house', 'bungalo'];
+var CHECKIN_PERIODS = ['12:00', '13:00', '14:00'];
+var CHECKOUT_PERIODS = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var DESCRIPTION_TITLE = 'Описание предложения №';
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var MIN_COORDINATE_X = 0;
+var MAX_COORDINATE_X = 1200;
+var MIN_COORDINATE_Y = 130;
+var MAX_COORDINATE_Y = 630;
+var MIN_PRICE = 0;
+var MAX_PRICE = 10000;
+var MIN_ROOMS = 1;
+var MAX_ROOMS = 10;
+var MIN_GUESTS = 1;
+var MAX_GUESTS = 20;
+var MAX_OFFERS = 5;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 
-var header = 'Заголовок предложения №';
-var typeOfHouse = ['place', 'flat', 'house', 'bungalo'];
-var checkinTime = ['12:00', '13:00', '14:00'];
-var checkoutTime = ['12:00', '13:00', '14:00'];
-var property = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var describe = 'Описание предложения №';
-var arrayPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var minCoordinateX = 0;
-var maxCoordinateX = 1200;
-var minCoordinateY = 130;
-var maxCoordinateY = 630;
-var minPrice = 0;
-var maxPrice = 10000;
-var minRooms = 1;
-var maxRooms = 10;
-var minGuests = 1;
-var maxGuests = 20;
-var pinWidth = 25;
-var pinHeight = 60;
+var map = document.querySelector('.map');
+var mapPins = document.querySelector('.map__pins');
 
 var createRandomValue = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-var value = createRandomValue(1, 8);
+
 var createRandomX = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-createRandomX(minCoordinateX, maxCoordinateX);
 
 var createRandomPrice = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-createRandomPrice(minPrice, maxPrice);
 
 var createRandomY = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-createRandomY(minCoordinateY, maxCoordinateY);
+
 
 var createRandomRooms = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-createRandomRooms(minRooms, maxRooms);
+
 
 var createRandomGuests = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-createRandomGuests(minGuests, maxGuests);
+
 
 var createRandomType = function () {
-  return typeOfHouse[Math.floor(Math.random() * typeOfHouse.length)];
+  return TYPE_OF_HOUSING[Math.floor(Math.random() * TYPE_OF_HOUSING.length)];
 };
-createRandomType();
 
 var createCheckinTime = function () {
-  return checkinTime[Math.floor(Math.random() * checkinTime.length)];
+  return CHECKIN_PERIODS[Math.floor(Math.random() * CHECKIN_PERIODS.length)];
 };
-createCheckinTime();
+
 
 var createCheckoutTime = function () {
-  return checkoutTime[Math.floor(Math.random() * checkoutTime.length)];
+  return CHECKOUT_PERIODS[Math.floor(Math.random() * CHECKOUT_PERIODS.length)];
 };
-createCheckoutTime();
 
 var createProperty = function () {
-  return property[Math.floor(Math.random() * property.length)];
+  return FEATURES[Math.floor(Math.random() * FEATURES.length)];
 };
-createProperty();
+
 
 var createPhotos = function () {
-  return arrayPhotos[Math.floor(Math.random() * arrayPhotos.length)];
+  return PHOTOS[Math.floor(Math.random() * PHOTOS.length)];
 };
-createPhotos();
-
-var avatarLocation = 'img/avatars/user0' + value + '.png';
 
 var renderObject = function () {
+  var avatarLocation = 'img/avatars/user0' + value + '.png';
+  var value = createRandomValue(1, 8);
   var createObject = {
     author: {
       avatar: avatarLocation
     },
     offer: {
-      title: header + value,
-      address: location.x, location.y,
-      price: createRandomPrice(minPrice, maxPrice),
+      title: HEADER + value,
+      // address: location.x, location.y,
+      price: createRandomPrice(MIN_PRICE, MAX_PRICE),
       type: createRandomType(),
-      rooms: createRandomRooms(minRooms, maxRooms),
-      guests: createRandomGuests(minGuests, maxGuests),
+      rooms: createRandomRooms(MIN_ROOMS, MAX_ROOMS),
+      guests: createRandomGuests(MIN_GUESTS, MAX_GUESTS),
       checkin: createCheckinTime(),
       checkout: createCheckoutTime(),
       features: createProperty(),
-      description: describe + value,
+      description: DESCRIPTION_TITLE + value,
       photos: createPhotos()
     },
     location: {
-      x: createRandomX(minCoordinateX, maxCoordinateX),
-      y: createRandomY(minCoordinateY, maxCoordinateY)
+      x: createRandomX(MIN_COORDINATE_X, MAX_COORDINATE_X),
+      y: createRandomY(MIN_COORDINATE_Y, MAX_COORDINATE_Y)
     }
   };
   return createObject;
 };
 
-var createPin = function () {
+var createPin = function (off) {
   var pinElem = document.querySelector('#pin').content.querySelector('.map__pin').cloneNode(true);
   var pinImg = pinElem.querySelector('img');
-  pinImg.src = author.avatar;
-  pinImg.alt = offer.title;
+  var moveX = PIN_WIDTH / 2;
+  var moveY = PIN_HEIGHT;
+
+  pinElem.style.left = (off.location.x - moveX) + 'px';
+  pinElem.style.top = (off.location.y - moveY) + 'px';
+  pinImg.src = off.author.avatar;
+  pinImg.alt = off.offer.title;
   return pinElem;
 };
 
+var fillArrayOffer = function () {
+  var offers = [];
+  for (var i = 1; i <= MAX_OFFERS; i++) {
+    var offer = renderObject(i);
+    offers.push(offer);
+  }
+  return offers;
+};
+var renderPinList = function (array) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(createPin(array[i]));
+  }
+  mapPins.appendChild(fragment);
+};
 
 map.classList.remove('map--faded');
+renderPinList(fillArrayOffer());
