@@ -29,77 +29,37 @@ var createRandomValue = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var createRandomX = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+var getRandomArr = function (array) {
+  return array[Math.floor(Math.random() * array.length)];
 };
 
-var createRandomPrice = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+var getValue = createRandomValue(1, 8);
 
-var createRandomY = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-
-var createRandomRooms = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-
-var createRandomGuests = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-
-var createRandomType = function () {
-  return TYPE_OF_HOUSING[Math.floor(Math.random() * TYPE_OF_HOUSING.length)];
-};
-
-var createCheckinTime = function () {
-  return CHECKIN_PERIODS[Math.floor(Math.random() * CHECKIN_PERIODS.length)];
-};
-
-
-var createCheckoutTime = function () {
-  return CHECKOUT_PERIODS[Math.floor(Math.random() * CHECKOUT_PERIODS.length)];
-};
-
-var createProperty = function () {
-  return FEATURES[Math.floor(Math.random() * FEATURES.length)];
-};
-
-
-var createPhotos = function () {
-  return PHOTOS[Math.floor(Math.random() * PHOTOS.length)];
-};
-
-var renderObject = function () {
-  var avatarLocation = 'img/avatars/user0' + value + '.png';
-  var value = createRandomValue(1, 8);
-  var createObject = {
+var createObject = function () {
+  var avatarAddress = 'img/avatars/user0' + getValue + '.png';
+  var createOffer = {
     author: {
-      avatar: avatarLocation
+      avatar: avatarAddress
     },
     offer: {
-      title: HEADER + value,
-      // address: location.x, location.y,
-      price: createRandomPrice(MIN_PRICE, MAX_PRICE),
-      type: createRandomType(),
-      rooms: createRandomRooms(MIN_ROOMS, MAX_ROOMS),
-      guests: createRandomGuests(MIN_GUESTS, MAX_GUESTS),
-      checkin: createCheckinTime(),
-      checkout: createCheckoutTime(),
-      features: createProperty(),
-      description: DESCRIPTION_TITLE + value,
-      photos: createPhotos()
+      title: HEADER + getValue,
+      address: createRandomValue(location.x) + ', ' + createRandomValue(location.y),
+      price: createRandomValue(MIN_PRICE, MAX_PRICE),
+      type: getRandomArr(TYPE_OF_HOUSING),
+      rooms: createRandomValue(MIN_ROOMS, MAX_ROOMS),
+      guests: createRandomValue(MIN_GUESTS, MAX_GUESTS),
+      checkin: getRandomArr(CHECKIN_PERIODS),
+      checkout: getRandomArr(CHECKOUT_PERIODS),
+      features: getRandomArr(FEATURES),
+      description: DESCRIPTION_TITLE + getValue,
+      photos: getRandomArr(PHOTOS)
     },
     location: {
-      x: createRandomX(MIN_COORDINATE_X, MAX_COORDINATE_X),
-      y: createRandomY(MIN_COORDINATE_Y, MAX_COORDINATE_Y)
+      x: createRandomValue(MIN_COORDINATE_X, MAX_COORDINATE_X),
+      y: createRandomValue(MIN_COORDINATE_Y, MAX_COORDINATE_Y)
     }
   };
-  return createObject;
+  return createOffer;
 };
 
 var createPin = function (off) {
@@ -117,8 +77,8 @@ var createPin = function (off) {
 
 var fillArrayOffer = function () {
   var offers = [];
-  for (var i = 1; i <= MAX_OFFERS; i++) {
-    var offer = renderObject(i);
+  for (var i = 0; i <= MAX_OFFERS; i++) {
+    var offer = createObject(i);
     offers.push(offer);
   }
   return offers;
