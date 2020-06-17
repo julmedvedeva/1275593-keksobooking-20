@@ -16,7 +16,7 @@ var MIN_ROOMS = 1;
 var MAX_ROOMS = 10;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 20;
-var MAX_OFFERS = 5;
+var MAX_OFFERS = 8;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
@@ -75,7 +75,7 @@ var createPin = function (off) {
   return pinElem;
 };
 
-var fillArrayOffer = function () {
+var fillArrayOffer = function (i) {
   var offers = [];
   for (var i = 0; i <= MAX_OFFERS; i++) {
     var offer = createObject(i);
@@ -83,6 +83,7 @@ var fillArrayOffer = function () {
   }
   return offers;
 };
+
 var renderPinList = function (array) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < array.length; i++) {
