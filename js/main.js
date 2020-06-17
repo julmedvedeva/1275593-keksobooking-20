@@ -61,16 +61,16 @@ var createObject = function (index) {
   return createOffer;
 };
 
-var createPin = function (off) {
+var createPin = function (obj) {
   var pinElem = document.querySelector('#pin').content.querySelector('.map__pin').cloneNode(true);
   var pinImg = pinElem.querySelector('img');
   var moveX = PIN_WIDTH / 2;
   var moveY = PIN_HEIGHT;
 
-  pinElem.style.left = (off.location.x - moveX) + 'px';
-  pinElem.style.top = (off.location.y - moveY) + 'px';
-  pinImg.src = off.author.avatar;
-  pinImg.alt = off.offer.title;
+  pinElem.style.left = (obj.location.x - moveX) + 'px';
+  pinElem.style.top = (obj.location.y - moveY) + 'px';
+  pinImg.src = obj.author.avatar;
+  pinImg.alt = obj.offer.title;
   return pinElem;
 };
 
