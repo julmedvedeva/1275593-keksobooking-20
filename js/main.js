@@ -33,16 +33,15 @@ var getRandomArr = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-var getValue = createRandomValue(1, 8);
 
-var createObject = function () {
-  var avatarAddress = 'img/avatars/user0' + getValue + '.png';
+var createObject = function (index) {
+  var avatarAddress = 'img/avatars/user0' + index + '.png';
   var createOffer = {
     author: {
       avatar: avatarAddress
     },
     offer: {
-      title: HEADER + getValue,
+      title: HEADER + index,
       address: createRandomValue(location.x) + ', ' + createRandomValue(location.y),
       price: createRandomValue(MIN_PRICE, MAX_PRICE),
       type: getRandomArr(TYPE_OF_HOUSING),
@@ -51,7 +50,7 @@ var createObject = function () {
       checkin: getRandomArr(CHECKIN_PERIODS),
       checkout: getRandomArr(CHECKOUT_PERIODS),
       features: getRandomArr(FEATURES),
-      description: DESCRIPTION_TITLE + getValue,
+      description: DESCRIPTION_TITLE + index,
       photos: getRandomArr(PHOTOS)
     },
     location: {
@@ -75,7 +74,7 @@ var createPin = function (off) {
   return pinElem;
 };
 
-var fillArrayOffer = function (i) {
+var fillArrayOffer = function () {
   var offers = [];
   for (var i = 0; i <= MAX_OFFERS; i++) {
     var offer = createObject(i);
