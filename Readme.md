@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юлия Медведева](https://up.htmlacademy.ru/javascript/20/user/1275593).
-* Наставник: [Денис Байдаров](https://htmlacademy.ru/profile/id7956).
+* Наставник: [Альбина Токарчук](https://htmlacademy.ru/profile/id167491).
 
 ---
 
