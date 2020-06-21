@@ -16,7 +16,7 @@ var MIN_ROOMS = 1;
 var MAX_ROOMS = 10;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 20;
-var MAX_OFFERS = 8;
+var MAX_OFFERS = 7;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
@@ -35,7 +35,7 @@ var getRandomArr = function (array) {
 
 
 var createObject = function (index) {
-  var avatarAddress = 'img/avatars/user0' + index + '.png';
+  var avatarAddress = 'img/avatars/user0' + (index + 1) + '.png';
   var createOffer = {
     author: {
       avatar: avatarAddress
